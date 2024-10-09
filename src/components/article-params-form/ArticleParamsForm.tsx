@@ -40,12 +40,20 @@ export const ArticleParamsForm = ({ onChange }: propsArticleParamsForm) => {
 		}
 	}
 
+	const resetHandler = (event: React.FormEvent<HTMLFormElement>) => {
+		event.preventDefault();
+		console.log('нажали сбросить');
+		if (onChange) {
+			onChange(defaultArticleState)
+		}
+	}
+
 	return (
 		<>
 			<ArrowButton onClick={toggleSidebar} />
 			<aside className={`${styles.container} ${sidebarIsOpen ? styles.container_open : ''}`}>
 
-				<form className={styles.form} onSubmit={submitHandler}>
+				<form className={styles.form} onSubmit={submitHandler} onReset={resetHandler} >
 
 					<Select
 						selected={selectedFont}

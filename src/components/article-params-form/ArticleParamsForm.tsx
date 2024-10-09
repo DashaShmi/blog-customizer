@@ -5,34 +5,40 @@ import { useState } from 'react';
 import styles from './ArticleParamsForm.module.scss';
 import { Select } from '../select';
 import { RadioGroup } from '../radio-group'
-import { fontFamilyOptions, fontColors, backgroundColors, contentWidthArr, fontSizeOptions, defaultArticleState } from 'src/constants/articleProps';
+import { fontFamilyOptions, fontColors, backgroundColors, contentWidthArr, fontSizeOptions, defaultArticleState, ArticleStateType } from 'src/constants/articleProps';
 
 
 interface propsArticleParamsForm {
-	onChange?: () => void;
+	onChange?: (data: ArticleStateType) => void;
 }
 
 export const ArticleParamsForm = ({ onChange }: propsArticleParamsForm) => {
 
 	const [sidebarIsOpen, setIsSidebarOpen] = useState(true);
-
-	const toggleSidebar = () => {
-		// Вызов функции для изменения состояния
-		setIsSidebarOpen(!sidebarIsOpen);
-	}
-	const submitHandler = (event: React.FormEvent<HTMLFormElement>) => {
-		event.preventDefault();
-		console.log('вонь формы, чуешь?');
-		if (onChange) {
-			onChange()
-		}
-	}
-
 	const [selectedFont, setSelectedFont] = useState(defaultArticleState.fontFamilyOption);
 	const [selectedFontSize, setSelectedFontSize] = useState(defaultArticleState.fontSizeOption);
 	const [selectedFontColor, setSelectedColor] = useState(defaultArticleState.fontColor);
 	const [selectedBackgroundColor, setSelectedBackgroundColor] = useState(defaultArticleState.backgroundColor);
 	const [selectedWidthContent, setSelectedWidthContent] = useState(defaultArticleState.contentWidth);
+
+	const toggleSidebar = () => {
+		// Вызов функции для изменения состояния
+		setIsSidebarOpen(!sidebarIsOpen);
+	}
+
+	const submitHandler = (event: React.FormEvent<HTMLFormElement>) => {
+		event.preventDefault();
+		console.log('вонь формы, чуешь?');
+		if (onChange) {
+			onChange({
+				fontFamilyOption: selectedFont,
+				fontColor: selectedFontColor,
+				backgroundColor: selectedBackgroundColor,
+				contentWidth: selectedWidthContent,
+				fontSizeOption: selectedFontSize,
+			})
+		}
+	}
 
 	return (
 		<>

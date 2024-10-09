@@ -4,7 +4,7 @@ import clsx from 'clsx';
 
 import { Article } from './components/article/Article';
 import { ArticleParamsForm } from './components/article-params-form/ArticleParamsForm';
-import { defaultArticleState, fontFamilyOptions } from './constants/articleProps';
+import { ArticleStateType, defaultArticleState, fontFamilyOptions } from './constants/articleProps';
 
 import './styles/index.scss';
 import styles from './styles/index.module.scss';
@@ -15,16 +15,11 @@ const root = createRoot(domNode);
 const App = () => {
 	const [appState, setAppState] = useState(defaultArticleState);
 
-	const changeHandler = () => {
+	const changeHandler = (newAppState: ArticleStateType) => {
 		console.log('changeee')
-	}
+		setAppState(newAppState)
 
-	setTimeout(() => {
-		setAppState({
-			...appState,
-			fontFamilyOption: fontFamilyOptions[3]
-		})
-	}, 5000);
+	}
 
 	return (
 		<div

@@ -43,6 +43,11 @@ export const ArticleParamsForm = ({ onChange }: propsArticleParamsForm) => {
 	const resetHandler = (event: React.FormEvent<HTMLFormElement>) => {
 		event.preventDefault();
 		console.log('нажали сбросить');
+		setSelectedColor(defaultArticleState.fontColor)
+		setSelectedFont(defaultArticleState.fontFamilyOption)
+		setSelectedFontSize(defaultArticleState.fontSizeOption)
+		setSelectedBackgroundColor(defaultArticleState.backgroundColor)
+		setSelectedWidthContent(defaultArticleState.contentWidth)
 		if (onChange) {
 			onChange(defaultArticleState)
 		}

@@ -7,6 +7,8 @@ import { Select } from '../select';
 import { RadioGroup } from '../radio-group'
 import { fontFamilyOptions, fontColors, backgroundColors, contentWidthArr, fontSizeOptions, defaultArticleState, ArticleStateType } from 'src/constants/articleProps';
 import { useOutsideClickClose } from '../select/hooks/useOutsideClickClose';
+import { Separator } from '../separator';
+import { Spacer } from '../spacer';
 
 
 interface propsArticleParamsForm {
@@ -14,21 +16,25 @@ interface propsArticleParamsForm {
 }
 
 export const ArticleParamsForm = ({ onChange }: propsArticleParamsForm) => {
-
 	const [sidebarIsOpen, setIsSidebarOpen] = useState(false);
 	const [selectedFont, setSelectedFont] = useState(defaultArticleState.fontFamilyOption);
 	const [selectedFontSize, setSelectedFontSize] = useState(defaultArticleState.fontSizeOption);
-	const [selectedFontColor, setSelectedColor] = useState(defaultArticleState.fontColor);
+	const [selectedFontColor, setSelectedFontColor] = useState(defaultArticleState.fontColor);
 	const [selectedBackgroundColor, setSelectedBackgroundColor] = useState(defaultArticleState.backgroundColor);
 	const [selectedWidthContent, setSelectedWidthContent] = useState(defaultArticleState.contentWidth);
 
 	const rootRef = useRef<HTMLDivElement>(null);
+	let lastStyles = useRef(defaultArticleState);
 
 	useOutsideClickClose({
 		isOpen: sidebarIsOpen,
 		rootRef: rootRef,
 		onClose: () => {
-
+			setSelectedFont(lastStyles.current.fontFamilyOption)
+			setSelectedFontSize(lastStyles.current.fontSizeOption)
+			setSelectedFontColor(lastStyles.current.fontColor)
+			setSelectedBackgroundColor(lastStyles.current.backgroundColor)
+			setSelectedWidthContent(lastStyles.current.contentWidth)
 		},
 		onChange: setIsSidebarOpen,
 	});
@@ -41,21 +47,24 @@ export const ArticleParamsForm = ({ onChange }: propsArticleParamsForm) => {
 	const submitHandler = (event: React.FormEvent<HTMLFormElement>) => {
 		event.preventDefault();
 		console.log('вонь формы, чуешь?');
+
+		lastStyles.current = {
+			fontFamilyOption: selectedFont,
+			fontColor: selectedFontColor,
+			backgroundColor: selectedBackgroundColor,
+			contentWidth: selectedWidthContent,
+			fontSizeOption: selectedFontSize,
+		};
+
 		if (onChange) {
-			onChange({
-				fontFamilyOption: selectedFont,
-				fontColor: selectedFontColor,
-				backgroundColor: selectedBackgroundColor,
-				contentWidth: selectedWidthContent,
-				fontSizeOption: selectedFontSize,
-			})
+			onChange(lastStyles.current)
 		}
 	}
 
 	const resetHandler = (event: React.FormEvent<HTMLFormElement>) => {
 		event.preventDefault();
 		console.log('нажали сбросить');
-		setSelectedColor(defaultArticleState.fontColor)
+		setSelectedFontColor(defaultArticleState.fontColor)
 		setSelectedFont(defaultArticleState.fontFamilyOption)
 		setSelectedFontSize(defaultArticleState.fontSizeOption)
 		setSelectedBackgroundColor(defaultArticleState.backgroundColor)
@@ -79,6 +88,8 @@ export const ArticleParamsForm = ({ onChange }: propsArticleParamsForm) => {
 						title='шрифт'
 					/>
 
+					<Spacer />
+
 					<RadioGroup
 						selected={selectedFontSize}
 						name='radio'
@@ -87,13 +98,18 @@ export const ArticleParamsForm = ({ onChange }: propsArticleParamsForm) => {
 						title='размер шрифта'
 					/>
 
+					<Spacer />
+
 					<Select
 						selected={selectedFontColor}
-						onChange={setSelectedColor}
+						onChange={setSelectedFontColor}
 						options={fontColors}
 						title='цвет шрифта'
 					/>
+					<Spacer />
 
+					<Separator />
+					<Spacer />
 
 					<Select
 						selected={selectedBackgroundColor}
@@ -101,6 +117,7 @@ export const ArticleParamsForm = ({ onChange }: propsArticleParamsForm) => {
 						options={backgroundColors}
 						title='цвет фона'
 					/>
+					<Spacer />
 
 					<Select
 						selected={selectedWidthContent}

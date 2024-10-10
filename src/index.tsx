@@ -18,7 +18,6 @@ const App = () => {
 	const changeHandler = (newAppState: ArticleStateType) => {
 		console.log('changeee')
 		setAppState(newAppState)
-
 	}
 
 	return (

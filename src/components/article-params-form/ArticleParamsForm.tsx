@@ -1,11 +1,12 @@
 import { ArrowButton } from 'components/arrow-button';
 import { Button } from 'components/button';
-import { useState } from 'react';
+import { useRef, useState } from 'react';
 
 import styles from './ArticleParamsForm.module.scss';
 import { Select } from '../select';
 import { RadioGroup } from '../radio-group'
 import { fontFamilyOptions, fontColors, backgroundColors, contentWidthArr, fontSizeOptions, defaultArticleState, ArticleStateType } from 'src/constants/articleProps';
+import { useOutsideClickClose } from '../select/hooks/useOutsideClickClose';
 
 
 interface propsArticleParamsForm {
@@ -14,12 +15,23 @@ interface propsArticleParamsForm {
 
 export const ArticleParamsForm = ({ onChange }: propsArticleParamsForm) => {
 
-	const [sidebarIsOpen, setIsSidebarOpen] = useState(true);
+	const [sidebarIsOpen, setIsSidebarOpen] = useState(false);
 	const [selectedFont, setSelectedFont] = useState(defaultArticleState.fontFamilyOption);
 	const [selectedFontSize, setSelectedFontSize] = useState(defaultArticleState.fontSizeOption);
 	const [selectedFontColor, setSelectedColor] = useState(defaultArticleState.fontColor);
 	const [selectedBackgroundColor, setSelectedBackgroundColor] = useState(defaultArticleState.backgroundColor);
 	const [selectedWidthContent, setSelectedWidthContent] = useState(defaultArticleState.contentWidth);
+
+	const rootRef = useRef<HTMLDivElement>(null);
+
+	useOutsideClickClose({
+		isOpen: sidebarIsOpen,
+		rootRef: rootRef,
+		onClose: () => {
+
+		},
+		onChange: setIsSidebarOpen,
+	});
 
 	const toggleSidebar = () => {
 		// Вызов функции для изменения состояния
@@ -54,7 +66,7 @@ export const ArticleParamsForm = ({ onChange }: propsArticleParamsForm) => {
 	}
 
 	return (
-		<>
+		<div ref={rootRef}>
 			<ArrowButton onClick={toggleSidebar} />
 			<aside className={`${styles.container} ${sidebarIsOpen ? styles.container_open : ''}`}>
 
@@ -103,6 +115,6 @@ export const ArticleParamsForm = ({ onChange }: propsArticleParamsForm) => {
 					</div>
 				</form>
 			</aside>
-		</>
+		</div>
 	);
 };

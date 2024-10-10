@@ -46,7 +46,6 @@ export const ArticleParamsForm = ({ onChange }: propsArticleParamsForm) => {
 
 	const submitHandler = (event: React.FormEvent<HTMLFormElement>) => {
 		event.preventDefault();
-		console.log('вонь формы, чуешь?');
 
 		lastStyles.current = {
 			fontFamilyOption: selectedFont,
@@ -63,7 +62,6 @@ export const ArticleParamsForm = ({ onChange }: propsArticleParamsForm) => {
 
 	const resetHandler = (event: React.FormEvent<HTMLFormElement>) => {
 		event.preventDefault();
-		console.log('нажали сбросить');
 		setSelectedFontColor(defaultArticleState.fontColor)
 		setSelectedFont(defaultArticleState.fontFamilyOption)
 		setSelectedFontSize(defaultArticleState.fontSizeOption)
